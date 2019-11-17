@@ -30,3 +30,6 @@
 
 * for every try, the winner that win with fewer wrong hits got #1 on the ladder
 
+
+transfer this all to trello
+
