@@ -19,6 +19,8 @@ const Box = styled.div`
   }
 `
 
+// create method to handle push to server and return with true or false if the user is identified
+
 
 const IndexPage = () => {
 
