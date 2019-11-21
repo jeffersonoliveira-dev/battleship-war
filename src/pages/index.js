@@ -20,12 +20,17 @@ const Box = styled.div`
 `
 
 
-const IndexPage = () => (
-  <Layout>
-    <Box>
-    </Box>
-    <GlobalStyle/>
-  </Layout>
-)
+const IndexPage = () => {
+
+  return (
+   <Layout>
+      <Box>
+
+      </Box>
+      <GlobalStyle/>
+    </Layout>
+  )
+
+}
 
 export default IndexPage
