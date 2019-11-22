@@ -1,7 +1,7 @@
-import React from "react"
-import Layout from "../components/layout"
-import styled from 'styled-components'
-import GlobalStyle from '../components/GlobalStyles'
+import React from 'react';
+import Layout from '../components/layout';
+import styled from 'styled-components';
+import GlobalStyle from '../components/GlobalStyles';
 
 // landing page
 
@@ -17,22 +17,16 @@ const Box = styled.div`
   @media only screen and (max-width: 768px) {
     min-width: 80vw;
   }
-`
-
-// create method to handle push to server and return with true or false if the user is identified
-
+`;
 
 const IndexPage = () => {
-
+  // create method to handle push to server and return with true or false if the user is identified
   return (
-   <Layout>
-      <Box>
-
-      </Box>
-      <GlobalStyle/>
+    <Layout>
+      <Box></Box>
+      <GlobalStyle />
     </Layout>
-  )
+  );
+};
 
-}
-
-export default IndexPage
+export default IndexPage;
