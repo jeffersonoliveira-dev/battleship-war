@@ -1,1 +1,1 @@
-need to make a form to fetch into db , idk what db to use yet
+maybe trying to actually use express
