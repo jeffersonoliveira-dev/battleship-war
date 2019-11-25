@@ -29,7 +29,9 @@
     "eslint-plugin-standard": "^4.0.1",
     "prettier": "^1.19.1"
   },
-  "keywords": ["gatsby"],
+  "keywords": [
+    "gatsby"
+  ],
   "license": "MIT",
   "scripts": {
     "build": "gatsby build",
