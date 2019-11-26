@@ -1,8 +1,9 @@
 const express = require('express');
 const path = require('path');
 const api = require('./routes/api/index');
-
 const app = express();
+const mongoose = require('mongoose');
+// mongoose.connect('mlab path here', {useNewUrlParser: true});
 
 // Serve the static files from the Gatsby app
 app.use(express.static(path.join(__dirname, 'client/public/')));
@@ -11,6 +12,7 @@ app.use(express.static(path.join(__dirname, 'client/public/')));
 app.use('/api', api);
 
 const port = process.env.PORT || 5000;
+
 app.listen(port);
 
 // Handles any requests that don't match the ones above
