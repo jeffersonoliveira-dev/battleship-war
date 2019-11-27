@@ -5,7 +5,10 @@ const app = express();
 const mongoose = require('mongoose');
 const Keys = require('../Keys');
 
-mongoose.connect(Keys.URI, {useNewUrlParser: true});
+mongoose.connect(Keys.URI, {
+  useUnifiedTopology: true,
+  useNewUrlParser: true,
+});
 
 // Serve the static files from the Gatsby app
 app.use(express.static(path.join(__dirname, 'client/public/')));
