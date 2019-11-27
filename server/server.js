@@ -3,8 +3,9 @@ const path = require('path');
 const api = require('./routes/api/index');
 const app = express();
 const mongoose = require('mongoose');
+const Keys = require('../Keys');
 
-// mongoose.connect('mlab path here', {useNewUrlParser: true});
+mongoose.connect(Keys.URI, {useNewUrlParser: true});
 
 // Serve the static files from the Gatsby app
 app.use(express.static(path.join(__dirname, 'client/public/')));
