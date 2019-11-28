@@ -3,9 +3,9 @@ const Schema = mongoose.Schema;
 const bcrypt = require('bcryptjs');
 
 const userSchema = new Schema({
-  //    username: String,
-  //    password: String,
-  //    Score: Number
+  username: String,
+  password: String,
+  Score: Number,
   // what save with yelds API
 });
 
