@@ -1,7 +1,7 @@
 import React from 'react';
-import Layout from '../components/layout';
 import styled from 'styled-components';
 import GlobalStyle from '../components/GlobalStyles';
+import Layout from '../components/layout';
 
 // landing page
 
