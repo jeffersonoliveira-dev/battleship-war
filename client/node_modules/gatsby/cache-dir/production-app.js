@@ -1,34 +1,47 @@
+if (__POLYFILL__) {
+  require(`core-js/modules/es6.promise`)
+}
 import { apiRunner, apiRunnerAsync } from "./api-runner-browser"
-import React from "react"
+import React, { createElement } from "react"
 import ReactDOM from "react-dom"
-import { Router, navigate, Location, BaseContext } from "@reach/router"
+import { Router, Route, withRouter, matchPath } from "react-router-dom"
 import { ScrollContext } from "gatsby-react-router-scroll"
-import domReady from "@mikaelkristiansson/domready"
-import {
-  shouldUpdateScroll,
-  init as navigationInit,
-  RouteUpdates,
-} from "./navigation"
+import domReady from "domready"
+import history from "./history"
 import emitter from "./emitter"
-import PageRenderer from "./page-renderer"
-import asyncRequires from "./async-requires"
-import { setLoader, ProdLoader, publicLoader } from "./loader"
-import EnsureResources from "./ensure-resources"
-import stripPrefix from "./strip-prefix"
-
-// Generated during bootstrap
-import matchPaths from "./match-paths.json"
-
-const loader = new ProdLoader(asyncRequires, matchPaths)
-setLoader(loader)
-loader.setApiRunner(apiRunner)
-
-window.asyncRequires = asyncRequires
 window.___emitter = emitter
-window.___loader = publicLoader
+import pages from "./pages.json"
+import redirects from "./redirects.json"
+import ComponentRenderer from "./component-renderer"
+import asyncRequires from "./async-requires"
+import loader from "./loader"
+loader.addPagesArray(pages)
+loader.addProdRequires(asyncRequires)
+window.asyncRequires = asyncRequires
+window.___loader = loader
+window.matchPath = matchPath
 
-navigationInit()
+// Convert to a map for faster lookup in maybeRedirect()
+const redirectMap = redirects.reduce((map, redirect) => {
+  map[redirect.fromPath] = redirect
+  return map
+}, {})
 
+const maybeRedirect = pathname => {
+  const redirect = redirectMap[pathname]
+
+  if (redirect != null) {
+    history.replace(redirect.toPath)
+    return true
+  } else {
+    return false
+  }
+}
+
+// Check for initial page-load redirect
+maybeRedirect(window.location.pathname)
+
+// Let the site/plugins run code very early.
 apiRunnerAsync(`onClientEntry`).then(() => {
   // Let plugins register a service worker. The plugin just needs
   // to return true.
@@ -36,120 +49,131 @@ apiRunnerAsync(`onClientEntry`).then(() => {
     require(`./register-service-worker`)
   }
 
-  // In gatsby v2 if Router is used in page using matchPaths
-  // paths need to contain full path.
-  // For example:
-  //   - page have `/app/*` matchPath
-  //   - inside template user needs to use `/app/xyz` as path
-  // Resetting `basepath`/`baseuri` keeps current behaviour
-  // to not introduce breaking change.
-  // Remove this in v3
-  const RouteHandler = props => (
-    <BaseContext.Provider
-      value={{
-        baseuri: `/`,
-        basepath: `/`,
-      }}
-    >
-      <PageRenderer {...props} />
-    </BaseContext.Provider>
+  const navigateTo = pathname => {
+    const redirect = redirectMap[pathname]
+
+    // If we're redirecting, just replace the passed in pathname
+    // to the one we want to redirect to.
+    if (redirect) {
+      pathname = redirect.toPath
+    }
+
+    // If we're already at this path, do nothing.
+    if (window.location.pathname === pathname) {
+      return
+    }
+
+    // Listen to loading events. If page resources load before
+    // a second, navigate immediately.
+    function eventHandler(e) {
+      if (e.page.path === loader.getPage(pathname).path) {
+        emitter.off(`onPostLoadPageResources`, eventHandler)
+        clearTimeout(timeoutId)
+        window.___history.push(pathname)
+      }
+    }
+
+    // Start a timer to wait for a second before transitioning and showing a
+    // loader in case resources aren't around yet.
+    const timeoutId = setTimeout(() => {
+      emitter.off(`onPostLoadPageResources`, eventHandler)
+      emitter.emit(`onDelayedLoadPageResources`, { pathname })
+      window.___history.push(pathname)
+    }, 1000)
+
+    if (loader.getResourcesForPathname(pathname)) {
+      // The resources are already loaded so off we go.
+      clearTimeout(timeoutId)
+      window.___history.push(pathname)
+    } else {
+      // They're not loaded yet so let's add a listener for when
+      // they finish loading.
+      emitter.on(`onPostLoadPageResources`, eventHandler)
+    }
+  }
+
+  // window.___loadScriptsForPath = loadScriptsForPath
+  window.___navigateTo = navigateTo
+
+  // Call onRouteUpdate on the initial page load.
+  apiRunner(`onRouteUpdate`, {
+    location: history.location,
+    action: history.action,
+  })
+
+  function attachToHistory(history) {
+    if (!window.___history) {
+      window.___history = history
+
+      history.listen((location, action) => {
+        if (!maybeRedirect(location.pathname)) {
+          apiRunner(`onRouteUpdate`, { location, action })
+        }
+      })
+    }
+  }
+
+  function shouldUpdateScroll(prevRouterProps, { location: { pathname } }) {
+    const results = apiRunner(`shouldUpdateScroll`, {
+      prevRouterProps,
+      pathname,
+    })
+    if (results.length > 0) {
+      return results[0]
+    }
+
+    if (prevRouterProps) {
+      const { location: { pathname: oldPathname } } = prevRouterProps
+      if (oldPathname === pathname) {
+        return false
+      }
+    }
+    return true
+  }
+
+  const AltRouter = apiRunner(`replaceRouterComponent`, { history })[0]
+  const DefaultRouter = ({ children }) => (
+    <Router history={history}>{children}</Router>
   )
 
-  class LocationHandler extends React.Component {
-    render() {
-      const { location } = this.props
-      return (
-        <EnsureResources location={location}>
-          {({ pageResources, location }) => (
-            <RouteUpdates location={location}>
-              <ScrollContext
-                location={location}
-                shouldUpdateScroll={shouldUpdateScroll}
-              >
-                <Router
-                  basepath={__BASE_PATH__}
-                  location={location}
-                  id="gatsby-focus-wrapper"
-                >
-                  <RouteHandler
-                    path={encodeURI(
-                      pageResources.page.path === `/404.html`
-                        ? stripPrefix(location.pathname, __BASE_PATH__)
-                        : pageResources.page.matchPath ||
-                            pageResources.page.path
-                    )}
-                    {...this.props}
-                    location={location}
-                    pageResources={pageResources}
-                    {...pageResources.json}
-                  />
-                </Router>
-              </ScrollContext>
-            </RouteUpdates>
-          )}
-        </EnsureResources>
+  const ComponentRendererWithRouter = withRouter(ComponentRenderer)
+
+  loader.getResourcesForPathname(window.location.pathname, () => {
+    const Root = () =>
+      createElement(
+        AltRouter ? AltRouter : DefaultRouter,
+        null,
+        createElement(
+          ScrollContext,
+          { shouldUpdateScroll },
+          createElement(ComponentRendererWithRouter, {
+            layout: true,
+            children: layoutProps =>
+              createElement(Route, {
+                render: routeProps => {
+                  attachToHistory(routeProps.history)
+                  const props = layoutProps ? layoutProps : routeProps
+
+                  if (loader.getPage(props.location.pathname)) {
+                    return createElement(ComponentRenderer, {
+                      page: true,
+                      ...props,
+                    })
+                  } else {
+                    return createElement(ComponentRenderer, {
+                      page: true,
+                      location: { pathname: `/404.html` },
+                    })
+                  }
+                },
+              }),
+          })
+        )
       )
-    }
-  }
 
-  const { pagePath, location: browserLoc } = window
-
-  // Explicitly call navigate if the canonical path (window.pagePath)
-  // is different to the browser path (window.location.pathname). But
-  // only if NONE of the following conditions hold:
-  //
-  // - The url matches a client side route (page.matchPath)
-  // - it's a 404 page
-  // - it's the offline plugin shell (/offline-plugin-app-shell-fallback/)
-  if (
-    pagePath &&
-    __BASE_PATH__ + pagePath !== browserLoc.pathname &&
-    !(
-      loader.findMatchPath(stripPrefix(browserLoc.pathname, __BASE_PATH__)) ||
-      pagePath === `/404.html` ||
-      pagePath.match(/^\/404\/?$/) ||
-      pagePath.match(/^\/offline-plugin-app-shell-fallback\/?$/)
-    )
-  ) {
-    navigate(__BASE_PATH__ + pagePath + browserLoc.search + browserLoc.hash, {
-      replace: true,
-    })
-  }
-
-  publicLoader.loadPage(browserLoc.pathname).then(page => {
-    if (!page || page.status === `error`) {
-      throw new Error(
-        `page resources for ${browserLoc.pathname} not found. Not rendering React`
-      )
-    }
-
-    window.___webpackCompilationHash = page.page.webpackCompilationHash
-
-    const Root = () => (
-      <Location>
-        {locationContext => <LocationHandler {...locationContext} />}
-      </Location>
-    )
-
-    const WrappedRoot = apiRunner(
-      `wrapRootElement`,
-      { element: <Root /> },
-      <Root />,
-      ({ result }) => {
-        return { element: result }
-      }
-    ).pop()
-
-    let NewRoot = () => WrappedRoot
-
-    const renderer = apiRunner(
-      `replaceHydrateFunction`,
-      undefined,
-      ReactDOM.hydrate
-    )[0]
-
-    domReady(() => {
-      renderer(
+    const NewRoot = apiRunner(`wrapRootComponent`, { Root }, Root)[0]
+    domReady(() =>
+      ReactDOM.render(
         <NewRoot />,
         typeof window !== `undefined`
           ? document.getElementById(`___gatsby`)
@@ -158,6 +182,6 @@ apiRunnerAsync(`onClientEntry`).then(() => {
           apiRunner(`onInitialClientRender`)
         }
       )
-    })
+    )
   })
 })
