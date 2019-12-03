@@ -7,17 +7,16 @@ const FormBox = styled.form`
 `
 
 interface IFormProps {
-
 }
 
-const Form: React.FC<IFormProps> = (props) => {
-  const [ state, setState ] = React.useState({
-    //
-  })
-  // useState to register nick and password and send via fetch
 
-  const sendForm = (obj: typeof state) => {
-    //  fetch
+const Form: React.FC<IFormProps> = (props) => {
+  const sendForm = (event: any) => {
+    event.preventDefault() ;
+    let nickname = (document.getElementById('nick') as HTMLInputElement).value;
+    let password = (document.getElementById('pass') as HTMLInputElement).value;
+
+    // fetch
   }
 
   return (
@@ -26,12 +25,12 @@ const Form: React.FC<IFormProps> = (props) => {
     <FormBox>
     <label>
     nickname:
-      <input type="text" name="name" />
     </label>
-        <label>
+      <input type="text" name="nick" id="nick"/>
+    <label>
     password:
-      <input type="text" name="password" />
     </label>
+      <input type="password" name="password" id="pass"/>
 
     <input type="submit" value="log in" onClick={sendForm} />
     </FormBox>
