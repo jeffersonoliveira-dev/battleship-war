@@ -16,6 +16,8 @@ const Form: React.FC<IFormProps> = (props) => {
     let nickname = (document.getElementById('nick') as HTMLInputElement).value;
     let password = (document.getElementById('pass') as HTMLInputElement).value;
 
+    fetch('http://localhost:5000/api/', { method : 'post' })
+        .then(response => console.log('enviado'))
     // fetch
   }
 
