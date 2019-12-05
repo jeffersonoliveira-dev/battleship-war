@@ -1,5 +1,4 @@
 var express = require('express');
-
 var router = express.Router();
 
 router.get('/', (req, res) => {
@@ -7,7 +6,9 @@ router.get('/', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-  console.log('you requested this api');
+  console.log('you requested this api, post');
+  // connect with mongoose
+  res.send(true)
 });
 
 module.exports = router;
