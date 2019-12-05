@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const path = require('path');
 const api = require('./routes/api/index');
 const app = express();
@@ -11,6 +12,7 @@ mongoose.connect(Keys.URI, {
 });
 
 // Serve the static files from the Gatsby app
+app.use(cors) ;
 app.use(express.static(path.join(__dirname, 'client/public/')));
 
 // An api endpoint that returns a short list of items
