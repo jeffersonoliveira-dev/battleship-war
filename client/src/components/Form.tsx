@@ -17,6 +17,7 @@ const Form: React.FC<IFormProps> = (props) => {
     let password = (document.getElementById('pass') as HTMLInputElement).value;
 
     fetch('http://localhost:5000/api/', { method: 'POST' }).then(response => console.log(response))
+     // redirect to other page
   }
 
   return (
