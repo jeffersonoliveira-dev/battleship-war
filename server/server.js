@@ -1,7 +1,9 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 const cors = require('cors');
 const path = require('path');
 const api = require('./routes/api/index');
+const user = require('./routes/user/index');
 const app = express();
 const mongoose = require('mongoose');
 const Keys = require('../Keys');
@@ -13,9 +15,12 @@ mongoose.connect(Keys.URI, {
 
 app.use(cors())
 
+app.use(bodyParser.urlencoded({ extended: true }))
+
 app.use(express.static(path.join(__dirname, 'client/public/')));
 
 app.use('/api', api);
+app.use('/user', user);
 
 const port = process.env.PORT || 5000;
 

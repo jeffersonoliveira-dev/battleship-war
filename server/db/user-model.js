@@ -1,13 +1,17 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const bcrypt = require('bcryptjs');
+var auth = require('express-mongoose-auth');
 
 const userSchema = new Schema({
   username: String,
-  password: String,
+  hashed_password: String,
+  salt: String,
   Score: Number,
-  // what save with yelds API
 });
+
+
+auth.makeAuthable(userSchema);
 
 const User = (module.exports = mongoose.model('User', userSchema));
 
