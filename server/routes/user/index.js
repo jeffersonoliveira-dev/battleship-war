@@ -1,13 +1,16 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 
-router.get('/', (req, res) => {
-  console.log('you requested this api');
+router.post("/login", (req, res) => {
+  console.log(req.body);
+
+  // check if name already exists?
+  // if exists ?
+  // check password ?
+  // if true ?
+  // redirect
+  // if false?
+  // create account
 });
-
-router.post('/login', (req, res) => {
-  console.log(req.body)
-
-})
 
 module.exports = router;
