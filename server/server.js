@@ -7,21 +7,21 @@ const user = require('./routes/user/index');
 const app = express();
 const mongoose = require('mongoose');
 const Keys = require('../Keys');
+require('./db/Users')
 
 mongoose.connect(Keys.URI, {
   useUnifiedTopology: true,
   useNewUrlParser: true,
-});
+}, () => console.log('connected to mongodb'));
+
+mongoose.set('debug', true)
 
 app.use(cors())
-
-app.use(bodyParser.urlencoded({ extended: true }))
-
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
 app.use(express.static(path.join(__dirname, 'client/public/')));
-
 app.use('/api', api);
 app.use('/user', user);
-
 const port = process.env.PORT || 5000;
 
 app.listen(port);

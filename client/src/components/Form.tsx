@@ -16,7 +16,18 @@ const Form: React.FC<IFormProps> = (props) => {
     let nickname = (document.getElementById('nick') as HTMLInputElement).value;
     let password = (document.getElementById('pass') as HTMLInputElement).value;
 
-    fetch('http://localhost:5000/user/', { method: 'POST' }).then(response => console.log(response))
+    fetch('http://localhost:5000/user/login', 
+    { 
+      method: 'post',
+      headers: {
+        'Accept': 'application/json, text/plain, */*',
+        'Content-Type': 'application/json'
+      },
+       body: JSON.stringify({nick: nickname, pass: password})
+      })
+
+       .then(response => console.log(response))
+    
      // redirect to other page
   }
 
