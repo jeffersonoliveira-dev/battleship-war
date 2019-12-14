@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Form from "../components/Form";
+import { withRouter } from "react-router-dom";
 
 export const Container = styled.div`
   height: 100%;
@@ -42,4 +43,4 @@ const Home: React.FC = () => {
   );
 };
 
-export default Home;
+export default withRouter(Home);

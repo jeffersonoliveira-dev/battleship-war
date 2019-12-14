@@ -1,14 +1,15 @@
 import * as React from "react";
 import styled from "styled-components";
+import { RouteComponentProps, withRouter } from "react-router-dom";
 
 const FormBox = styled.form`
   width: 100%;
   height: 100%;
 `;
 
-interface IFormProps {}
+// props.history.push working
 
-const Form: React.FC<IFormProps> = props => {
+const Form: React.FC<RouteComponentProps> = props => {
   const sendForm = (event: any) => {
     event.preventDefault();
     let nickname = (document.getElementById("nick") as HTMLInputElement).value;
@@ -40,4 +41,4 @@ const Form: React.FC<IFormProps> = props => {
   );
 };
 
-export default Form;
+export default withRouter(Form);
