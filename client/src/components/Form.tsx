@@ -20,8 +20,10 @@ const Form: React.FC<IFormProps> = props => {
         Accept: "application/json, text/plain, */*",
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({ nick: nickname, pass: password })
-    }).then(response => console.log(response));
+      body: JSON.stringify({ nickname: nickname, password: password })
+    })
+      .then(response => response.json())
+      .then(result => console.log(result));
     // redirect to other page
   };
 

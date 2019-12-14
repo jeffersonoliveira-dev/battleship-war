@@ -1,8 +1,6 @@
-import React from 'react';
-import './App.css';
-import styled from 'styled-components';
-import Form from './components/Form'
-
+import React from "react";
+import styled from "styled-components";
+import Form from "../components/Form";
 
 export const Container = styled.div`
   height: 100%;
@@ -19,8 +17,6 @@ export const Title = styled.div`
   top: 20px;
 `;
 
-
-
 export const Box = styled.div`
   background-color: white;
   height: 400px;
@@ -30,23 +26,20 @@ export const Box = styled.div`
   top: 50%;
   transform: translate(-50%, 30%);
 
-
   @media (max-width: 768px) {
     width: 90vw;
   }
 `;
 
-
-
-const App: React.FC = () => {
+const Home: React.FC = () => {
   return (
     <Container>
-       <Title>Battleship War</Title>
-       <Box>
-        <Form/>
-       </Box>
-     </Container>
+      <Title>Battleship War</Title>
+      <Box>
+        <Form />
+      </Box>
+    </Container>
   );
-}
+};
 
 export default App;
