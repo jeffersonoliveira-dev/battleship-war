@@ -5,4 +5,4 @@ const Dashboard: React.FC = () => {
   return <h1>this is dashboard</h1>;
 };
 
-e;
+export default Dashboard;

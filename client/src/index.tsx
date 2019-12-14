@@ -1,8 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
-import App from "./routes/Home";
-import Dashboard from "./routes/Dashbord";
+import Home from "./routes/Home";
+import Dashboard from "./routes/Dashboard";
 import * as serviceWorker from "./serviceWorker";
 import { Route, BrowserRouter as Router } from "react-router-dom";
 import GlobalStyles from "./components/GlobalStyles";
@@ -10,7 +10,7 @@ import GlobalStyles from "./components/GlobalStyles";
 ReactDOM.render(
   <Router>
     <div>
-      <Route exact path="/" component={App} />
+      <Route exact path="/" component={Home} />
       <Route path="/dashboard" component={Dashboard} />
       <GlobalStyles />
     </div>
