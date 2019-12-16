@@ -23,11 +23,12 @@ const Form: React.FC<RouteComponentProps> = props => {
     })
       .then(response => response.json())
       .then(result => {
-        if (resutl) {
+        if (result) {
           props.history.push("/dashboard");
+        } else {
+          // alert that nick already exist or password is wrong
         }
       });
-    // redirect to other page
   };
 
   return (
