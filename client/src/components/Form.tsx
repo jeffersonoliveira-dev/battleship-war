@@ -2,9 +2,21 @@ import * as React from "react";
 import styled from "styled-components";
 import { RouteComponentProps, withRouter } from "react-router-dom";
 
-const FormBox = styled.form`
-  width: 100%;
+const Container = styled.div`
   height: 100%;
+  width: 100%;
+`;
+
+const FormBox = styled.form`
+  margin-top: 20vh;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+`;
+
+const Item = styled.div`
+  justify-content: center;
+  margin: 5px;
 `;
 
 const Form: React.FC<RouteComponentProps> = props => {
@@ -32,15 +44,21 @@ const Form: React.FC<RouteComponentProps> = props => {
   };
 
   return (
-    <>
+    <Container>
       <FormBox>
-        <label>nickname:</label>
-        <input type="text" name="nick" id="nick" />
-        <label>password:</label>
-        <input type="password" name="password" id="pass" />
-        <input type="submit" value="log in" onClick={sendForm} />
+        <Item>
+          <label>nickname:</label>
+          <input type="text" name="nick" id="nick" />
+        </Item>
+        <Item>
+          <label>password:</label>
+          <input type="password" name="password" id="pass" />
+        </Item>
+        <Item>
+          <input type="submit" value="log in" onClick={sendForm} />
+        </Item>
       </FormBox>
-    </>
+    </Container>
   );
 };
 

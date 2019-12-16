@@ -1,12 +1,12 @@
-import {createGlobalStyle} from "styled-components";
+import { createGlobalStyle } from "styled-components";
 
 const GlobalStyles = createGlobalStyle`
 body {
   position: relative;
-  height: 100%;
-  width: 100%.
+  height: 100vh;
+  width: 100vw.
   background-color: blue;
 }
-`
+`;
 
-export default GlobalStyles
+export default GlobalStyles;
