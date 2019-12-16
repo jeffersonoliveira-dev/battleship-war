@@ -1,5 +1,6 @@
 import * as React from "react";
 import styled from "styled-components";
+// need to install webpack to display ranking in real time
 
 export const Container = styled.div``;
 
