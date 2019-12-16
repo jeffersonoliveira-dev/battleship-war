@@ -7,8 +7,6 @@ const FormBox = styled.form`
   height: 100%;
 `;
 
-// props.history.push working
-
 const Form: React.FC<RouteComponentProps> = props => {
   const sendForm = (event: any) => {
     event.preventDefault();
@@ -24,7 +22,11 @@ const Form: React.FC<RouteComponentProps> = props => {
       body: JSON.stringify({ nickname: nickname, password: password })
     })
       .then(response => response.json())
-      .then(result => console.log(result));
+      .then(result => {
+        if (resutl) {
+          props.history.push("/dashboard");
+        }
+      });
     // redirect to other page
   };
 
