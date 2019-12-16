@@ -1,8 +1,20 @@
 import React from "react";
-import styled from "styled-components";
+import { Link } from "react-router-dom";
+// import styled from "styled-components";
 
 const Dashboard: React.FC = () => {
-  return <h1>this is dashboard</h1>;
+  return (
+    <>
+      <div>
+        <button>
+          <Link to="/game">game</Link>{" "}
+        </button>
+        <button>
+          <Link to="/score">score</Link>{" "}
+        </button>
+      </div>
+    </>
+  );
 };
 
 export default Dashboard;
