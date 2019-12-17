@@ -7,6 +7,7 @@ const user = require("./routes/user/index");
 const app = express();
 const mongoose = require("mongoose");
 const Keys = require("../Keys");
+const socket = require("socket.io");
 require("./db/Users");
 
 mongoose.connect(
@@ -30,10 +31,19 @@ app.use("/api", api);
 app.use("/user", user);
 const port = process.env.PORT || 5000;
 
-app.listen(port);
+const server = app.listen(port);
 
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname + "/client/public/404.html"));
 });
 
 console.log("App is listening on port " + port);
+
+const io = socket(server);
+
+io.on("connection", socket => {
+  console.log("socket connected");
+  //  socket.emit('request', /* … */); // emit an event to the socket
+  //  io.emit('broadcast', /* … */); // emit an event to all connected sockets
+  //  socket.on('reply', () => { /* … */ }); // listen to the event
+});
