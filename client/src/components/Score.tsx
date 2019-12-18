@@ -3,10 +3,10 @@ import styled from "styled-components";
 
 const Block = styled.div`
   background-color: white;
-  height: 100%;
-  padding: 0.5rem;
+  height: 12vh;
   margin: 5px;
 `;
+
 const UserScore = styled.div``;
 
 const Score: React.FC = () => {

@@ -5,7 +5,9 @@ body {
   position: relative;
   height: 100vh;
   width: 100vw.
-  background-color: blue;
+  background-color: #164D76;
+  background: linear-gradient(90deg, #164D76 60%, blue 60%);
+
 }
 `;
 
