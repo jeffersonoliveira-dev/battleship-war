@@ -1,41 +1,65 @@
 import * as React from "react";
-
 import styled from "styled-components";
-
 import socketIOClient from "socket.io-client";
-// need to install websocket to display ranking in real time
+import Score from "../components/Score";
 
-export const Container = styled.div``;
+const Container = styled.div`
+  height: 100%;
+  width: 100%;
+`;
 
-export const Display = styled.div``;
+const Display = styled.div`
+  position: relative;
+  top: 10vh;
+  text-align: center;
+  width: 70%;
+  padding: 0.5rem;
+  margin: 0 auto;
+  background-color: skyblue;
+  height: 70vh;
+`;
 
-export const List = styled.li``;
+const Block = styled.div`
+  height: 60vh;
+  width: 80%;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+`;
 
-export const Block = styled.div``;
-
-export const Score = styled.div``;
-
-//
+const List = styled.li`
+  list-style: none;
+`;
 
 const Ranking: React.FC = () => {
+  // useState to store rankings
   React.useEffect(() => {
     const socket = socketIOClient("http://localhost:5000");
     socket.on("connect", function() {
       console.log("websocket from client connected");
     });
-  });
+  }, []);
 
   return (
     <Container>
-      <h1>Ranking</h1>
       <Display>
-        <ul>
-          <List>
-            <Block>
-              <Score></Score>
-            </Block>
-          </List>
-        </ul>
+        <Block>
+          <ul>
+            <List>
+              <Score />
+              <Score />
+              <Score />
+              <Score />
+              <Score />
+              <Score />
+              <Score />
+              <Score />
+              <Score />
+              <Score />
+            </List>
+          </ul>
+        </Block>
       </Display>
     </Container>
   );

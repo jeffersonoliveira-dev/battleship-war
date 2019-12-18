@@ -2,4 +2,8 @@
 
 * pages will be : login > game start || scores > game init
 
-* currently doing routing now
+* currently doing Ranking page
+
+
+
+# global colors 
