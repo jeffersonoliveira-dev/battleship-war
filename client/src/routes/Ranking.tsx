@@ -1,19 +1,44 @@
 import * as React from "react";
+
 import styled from "styled-components";
+
 import socketIOClient from "socket.io-client";
 // need to install websocket to display ranking in real time
 
 export const Container = styled.div``;
 
-const Score: React.FC = () => {
-  // const socket = socketIOClient('http://localhost:5000');
-  //   socket.on('connect', function(){});
+export const Display = styled.div``;
+
+export const List = styled.li``;
+
+export const Block = styled.div``;
+
+export const Score = styled.div``;
+
+//
+
+const Ranking: React.FC = () => {
+  React.useEffect(() => {
+    const socket = socketIOClient("http://localhost:5000");
+    socket.on("connect", function() {
+      console.log("websocket from client connected");
+    });
+  });
 
   return (
     <Container>
-      <h1>Score</h1>
+      <h1>Ranking</h1>
+      <Display>
+        <ul>
+          <List>
+            <Block>
+              <Score></Score>
+            </Block>
+          </List>
+        </ul>
+      </Display>
     </Container>
   );
 };
 
-export default Score;
+export default Ranking;
