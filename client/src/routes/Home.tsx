@@ -7,7 +7,6 @@ export const Container = styled.div`
   height: 100%;
   width: 100%;
   position: relative;
-  background-color: blue;
 `;
 
 export const Title = styled.div`
