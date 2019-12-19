@@ -39,8 +39,8 @@ const Ranking: React.FC = () => {
   // useState to store rankings
   React.useEffect(() => {
     const socket = socketIOClient("http://localhost:5000");
-    socket.on("connect", function() {
-      console.log("websocket from client connected");
+    socket.on("message", (data: any) => {
+      console.log(data);
     });
   }, []);
 

@@ -8,6 +8,7 @@ const app = express();
 const mongoose = require("mongoose");
 const Keys = require("../Keys");
 const socket = require("socket.io");
+const Users = require("./db/Users");
 require("./db/Users");
 
 mongoose.connect(
@@ -41,9 +42,18 @@ console.log("App is listening on port " + port);
 
 const io = socket(server);
 
-io.on("connection", socket => {
-  console.log("socket connected");
-  //  socket.emit('request', /* … */); // emit an event to the socket
-  //  io.emit('broadcast', /* … */); // emit an event to all connected sockets
-  //  socket.on('reply', () => { /* … */ }); // listen to the event
+io.on("connection", client => {
+  Users.find({}).then(data => {
+    console.log(data);
+    let UserScores = [];
+    data.map(user => {
+      UserScores = [
+        ...UserScores,
+        { nickname: user.nickname, score: user.score }
+      ];
+    });
+    UserScores = UserScores.sort((a, b) => a.score - b.score);
+    io.sockets.emit("message", UserScores);
+  });
 });
+
