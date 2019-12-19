@@ -44,7 +44,6 @@ const io = socket(server);
 
 io.on("connection", client => {
   Users.find({}).then(data => {
-    console.log(data);
     let UserScores = [];
     data.map(user => {
       UserScores = [
