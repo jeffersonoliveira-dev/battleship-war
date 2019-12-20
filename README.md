@@ -2,7 +2,7 @@
 
 * pages will be : login > game start || scores > game init
 
-* currently doing Ranking page
+* almost finished ranking page
 
 
 
