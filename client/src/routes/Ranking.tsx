@@ -37,6 +37,7 @@ const List = styled.li`
 
 const Ranking: React.FC = () => {
   // useState to store rankings
+  // get rankings and number , maybe ?
   React.useEffect(() => {
     const socket = socketIOClient("http://localhost:5000");
     socket.on("message", (data: any) => {
