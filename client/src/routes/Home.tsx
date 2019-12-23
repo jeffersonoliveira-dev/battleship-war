@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import Form from "../components/Form";
+import Form from "../components/Home/Form";
 import { withRouter } from "react-router-dom";
 
 export const Container = styled.div`

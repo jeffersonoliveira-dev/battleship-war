@@ -11,6 +11,8 @@ const UserScore = styled.div``;
 
 // better design
 
+// number and nickname
+
 const Score: React.FC = () => {
   return (
     <Block>

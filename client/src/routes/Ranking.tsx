@@ -1,7 +1,7 @@
 import * as React from "react";
 import styled from "styled-components";
 import socketIOClient from "socket.io-client";
-import Score from "../components/Score";
+import Score from "../components/Ranking/Score";
 import { Link } from "react-router-dom";
 
 const Container = styled.div`
@@ -36,18 +36,20 @@ const List = styled.li`
 `;
 
 const Ranking: React.FC = () => {
-  const [allScores, setAllScores] = React.useState<Object[]>([]);
+  const [ranking, setRanking] = React.useState<Object[] | []>([]);
 
   React.useEffect(() => {
     const socket = socketIOClient("http://localhost:5000");
-    socket.on("message", (data: any) => {
-      setAllScores(data);
-      console.log(allScores);
+    socket.on("message", (data: Object[]) => {
+      setRanking(data);
     });
   }, []);
 
   // return  a list with the scores till 10 probably
-  let scores = []; // map allscores to render Score.js component
+
+  let scores = ranking; // map allscores to render Score.js component
+
+  console.log(scores);
   return (
     <Container>
       <Display>
