@@ -1,7 +1,6 @@
 import * as React from "react";
 import styled from "styled-components";
 import socketIOClient from "socket.io-client";
-import Score from "../components/Ranking/Score";
 import { Link } from "react-router-dom";
 
 const Container = styled.div`
@@ -58,13 +57,7 @@ const Ranking: React.FC = () => {
         </BlockHeader>
         <Block>
           <ul>
-            <List>
-              <Score />
-              <Score />
-              <Score />
-              <Score />
-              <Score />
-            </List>
+            <List></List>
           </ul>
         </Block>
         <div> your position is </div>
