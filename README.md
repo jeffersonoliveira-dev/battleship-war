@@ -2,7 +2,7 @@
 
 * pages will be : login > game start || scores > game init
 
-* almost finished ranking page
+* need to display cards with scores 
 
 
 
