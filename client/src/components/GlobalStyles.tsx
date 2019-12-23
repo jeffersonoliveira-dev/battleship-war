@@ -7,7 +7,6 @@ body {
   width: 100vw.
   background-color: #164D76;
   background: linear-gradient(90deg, #164D76 60%, blue 60%);
-
 }
 `;
 
