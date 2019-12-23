@@ -9,6 +9,8 @@ const Block = styled.div`
 
 const UserScore = styled.div``;
 
+// better design
+
 const Score: React.FC = () => {
   return (
     <Block>

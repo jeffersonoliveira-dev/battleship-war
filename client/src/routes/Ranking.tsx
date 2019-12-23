@@ -36,15 +36,18 @@ const List = styled.li`
 `;
 
 const Ranking: React.FC = () => {
-  // useState to store rankings
-  // get rankings and number , maybe ?
+  const [allScores, setAllScores] = React.useState<Object[]>([]);
+
   React.useEffect(() => {
     const socket = socketIOClient("http://localhost:5000");
     socket.on("message", (data: any) => {
-      console.log(data);
+      setAllScores(data);
+      console.log(allScores);
     });
   }, []);
 
+  // return  a list with the scores till 10 probably
+  let scores = []; // map allscores to render Score.js component
   return (
     <Container>
       <Display>
