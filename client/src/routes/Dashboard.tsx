@@ -29,10 +29,10 @@ const Dashboard: React.FC = () => {
     <Container>
       <Display>
         <Button>
-          <Link to="/game">game</Link>{" "}
+          <Link to="/game">start game</Link>{" "}
         </Button>
         <Button>
-          <Link to="/ranking">score</Link>{" "}
+          <Link to="/ranking">ranking</Link>{" "}
         </Button>
       </Display>
     </Container>
