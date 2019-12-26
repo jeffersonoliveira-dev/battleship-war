@@ -1,8 +1,6 @@
 # to do 
 
-* pages will be : login > game start || scores > game init
-
-* need to display cards with scores 
+* currently doing some game design and how to proceed  
 
 
 
