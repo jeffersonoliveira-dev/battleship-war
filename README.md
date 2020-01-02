@@ -1,9 +1,5 @@
 # to do 
 
-* currently doing some game design and how to proceed  
-
-
-
 
 # global colors  // colorscheme 
 
