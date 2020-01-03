@@ -1,6 +1,8 @@
 import * as React from "react";
 import styled from "styled-components";
 
+// Redux asap
+
 // game start modal
 // player choice where to put all the ships
 // player can control the ships and rotate
@@ -10,11 +12,7 @@ import styled from "styled-components";
 const Container = styled.div``;
 
 const Game: React.FC = () => {
-  return (
-    <Container>
-      <h1>Game</h1>
-    </Container>
-  );
+  return <Container></Container>;
 };
 
 export default Game;
