@@ -3,7 +3,7 @@
 
 game progress:
 
-> game start
+> game start : still planning 
 > UI to the game
 > ships selecting
 
