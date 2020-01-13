@@ -14,6 +14,10 @@ export interface DispatchAction extends Action {
    payload: Partial<InitialState>;
 }
 
+export enum ActionType {
+  // types here for the string
+}
+
 
 export const rootReducer: Reducer<InitialState, DispatchAction> = ( state, action ) => {
   return InitialState
