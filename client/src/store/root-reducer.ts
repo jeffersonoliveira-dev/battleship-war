@@ -1,4 +1,5 @@
 import { Action, Reducer } from 'redux'
+import { Dispatch  } from 'react-redux'
 
 export interface InitialState {
     // have to put this
@@ -21,4 +22,10 @@ export enum ActionType {
 
 export const rootReducer: Reducer<InitialState, DispatchAction> = ( state, action ) => {
   return InitialState
+}
+
+
+export class rootDispatcher {
+  private readonly dispatch: Dispatch<DispatchAction>
+  // redux methods
 }
