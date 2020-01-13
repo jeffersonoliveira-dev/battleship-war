@@ -2,7 +2,6 @@ import * as React from "react";
 import styled from "styled-components";
 
 // Redux asap
-
 // game start modal
 // player choice where to put all the ships
 // player can control the ships and rotate
